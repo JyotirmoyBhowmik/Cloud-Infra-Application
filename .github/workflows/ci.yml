@@ -1,0 +1,50 @@
+name: CloudGov CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+        
+    - name: Install Dependencies (Root)
+      run: npm install
+      
+    - name: Build API
+      run: |
+        cd apps/api
+        npm install
+        npm run build
+        
+    - name: Build Web
+      run: |
+        cd apps/web
+        npm install
+        npm run build
+        
+    - name: Run Linter
+      run: |
+        cd apps/api && npm run lint
+        cd apps/web && npm run lint
+
+    - name: Run Unit Tests
+      run: |
+        cd apps/api
+        npm run test
