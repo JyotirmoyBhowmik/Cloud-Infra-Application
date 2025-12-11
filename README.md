@@ -9,6 +9,7 @@ This is a single-pane-of-glass application for governing, monitoring, and planni
 - **Database:** PostgreSQL (Metadata) + TimescaleDB (Metrics/Cost).
 - **Messaging:** Kafka (Event bus) - *configuration provided in docker-compose*.
 
+
 ## Prerequisites
 - Node.js (v18+)
 - Docker & Docker Compose
