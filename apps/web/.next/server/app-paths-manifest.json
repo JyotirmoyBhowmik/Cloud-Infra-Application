@@ -1,8 +1,0 @@
-{
-  "/inventory/page": "app/inventory/page.js",
-  "/finops/page": "app/finops/page.js",
-  "/budgets/page": "app/budgets/page.js",
-  "/playbooks/page": "app/playbooks/page.js",
-  "/settings/page": "app/settings/page.js",
-  "/dashboard/page": "app/dashboard/page.js"
-}
