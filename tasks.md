@@ -75,24 +75,24 @@ Based on the [Statement of Work](./SOW.md), this task list tracks the implementa
     - [x] Build IAM/Access Reviews - `apps/web/app/iam-reviews`.
 - [ ] **Alerting Engine**
     - [x] Created `AlertController` and Service structure (Mock).
-    - [ ] Implement backend logic for threshold evaluation.
-    - [ ] Integrate Notification Channels (Email, Slack, PagerDuty).
-    - [ ] Create Alert Management UI (Ack, Snooze, Escalate).
+    - [x] Implement backend logic for threshold evaluation.
+    - [x] Integrate Notification Channels (Email, Slack, PagerDuty).
+    - [x] Create Alert Management UI (Ack, Snooze, Escalate).
 - [ ] **Admin Modules**
     - [x] Build Tenant Settings - `apps/web/app/settings`.
-    - [ ] Build User Management and Application Audit Log views.
+    - [x] Build User Management and Application Audit Log views.
 
 ## Phase 5: FinOps and Planning
 - [ ] **Cost Analytics**
     - [x] Implement Cost Entity.
     - [x] Build Cost Dashboard (Trends, Allocation, Forecasts) - `apps/web/app/finops`.
     - [x] Implement Mock Forecasting Service with confidence intervals.
-    - [ ] Implement Daily/Monthly Spend aggregation logic.
-    - [ ] Implement Forecasting Engine (Prophet/ARIMA integration - Real).
+    - [x] Implement Daily/Monthly Spend aggregation logic.
+    - [x] Implement Forecasting Engine (Prophet/ARIMA integration - Real).
 - [ ] **Optimization**
     - [x] Created `OptimizationService`.
     - [x] Develop Rightsizing Heuristics (Logic in Service).
-    - [ ] Implement Reservation Recommendations (RI/Savings Plans).
+    - [x] Implement Reservation Recommendations (RI/Savings Plans).
 - [ ] **Budgets**
     - [x] Implement Budget creation and tracking logic.
     - [x] Implement Budget Alert triggers.
@@ -101,7 +101,7 @@ Based on the [Statement of Work](./SOW.md), this task list tracks the implementa
 - [ ] **Security & Compliance**
     - [x] Build Compliance Dashboard UI Mockups.
     - [x] Define Audit Event entities and Service (`audit.service.ts`).
-    - [ ] Implement Compliance Scanners (CIS, SOC2, policies).
+    - [x] Implement Compliance Scanners (CIS, SOC2, policies).
     - [ ] Implement Immutable Audit Logging (Tamper-proof storage).
 - [ ] **Resilience Testing**
     - [ ] Perform Chaos Engineering tests (Service failures, Latency injection).
@@ -124,9 +124,9 @@ Based on the [Statement of Work](./SOW.md), this task list tracks the implementa
     - [x] SOW Created.
     - [x] README with Setup Instructions Created.
     - [x] Completion Report Created.
-    - [ ] Finalize Developer API Documentation.
-    - [ ] Write Operational Runbooks (Incident Response, Maintenance).
-    - [ ] Create User Guides and Admin Manuals.
+    - [x] Finalize Developer API Documentation.
+    - [x] Write Operational Runbooks (Incident Response, Maintenance).
+    - [x] Create User Guides and Admin Manuals.
 - [ ] **Production Launch**
     - [ ] Deploy to Production environment.
     - [ ] Perform Production Verification Testing (PVT).

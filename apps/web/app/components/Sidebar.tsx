@@ -10,14 +10,23 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import PeopleIcon from '@mui/icons-material/People';
+import HistoryIcon from '@mui/icons-material/History';
 
 const menuItems = [
     { name: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
     { name: 'Inventory', href: '/inventory', icon: InventoryIcon },
     { name: 'FinOps', href: '/finops', icon: AttachMoneyIcon },
+    { name: 'Budgets', href: '/budgets', icon: AccountBalanceWalletIcon },
     { name: 'Governance', href: '/governance', icon: SecurityIcon },
+    { name: 'Compliance', href: '/compliance', icon: SecurityIcon },
+    { name: 'Alerts', href: '/alerts', icon: NotificationsIcon },
     { name: 'Playbooks', href: '/playbooks', icon: AutoFixHighIcon },
     { name: 'Access Reviews', href: '/iam-reviews', icon: FactCheckIcon },
+    { name: 'Users', href: '/users', icon: PeopleIcon },
+    { name: 'Audit Logs', href: '/audit', icon: HistoryIcon },
     { name: 'Support', href: '/support', icon: SupportAgentIcon },
     { name: 'Settings', href: '/settings', icon: SettingsIcon },
 ];
@@ -39,8 +48,8 @@ export default function Sidebar() {
                             key={item.name}
                             href={item.href}
                             className={`group flex items-center rounded-md px-2 py-2 text-sm font-medium ${isActive
-                                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100'
-                                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white'
+                                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100'
+                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white'
                                 }`}
                         >
                             <Icon className="mr-3 h-5 w-5 flex-shrink-0" />

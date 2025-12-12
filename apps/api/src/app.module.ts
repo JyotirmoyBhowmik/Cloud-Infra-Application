@@ -12,15 +12,19 @@ import { PlaybookController } from './controllers/playbook.controller';
 import { OptimizationController } from './controllers/optimization.controller';
 import { RbacController } from './controllers/rbac.controller';
 import { BudgetController } from './controllers/budget.controller';
+import { ComplianceController } from './controllers/compliance.controller';
 
 import { TenantService } from './services/tenant.service';
 import { InventoryService } from './services/inventory.service';
 import { CostService } from './services/cost.service';
 import { OptimizationService } from './services/optimization.service';
 import { AuditService } from './services/audit.service';
+import { AlertService } from './services/alert.service';
+import { NotificationService } from './services/notification.service';
 import { PlaybookService } from './services/playbook.service';
 import { RbacService } from './services/rbac.service';
 import { BudgetService } from './services/budget.service';
+import { ComplianceService } from './services/compliance.service';
 
 import { AwsConnectorService } from './connectors/aws-connector.service';
 import { AzureConnectorService } from './connectors/azure-connector.service';
@@ -39,6 +43,8 @@ import { UserRole } from './entities/user-role.entity';
 import { JitRequest } from './entities/jit-request.entity';
 import { Budget } from './entities/budget.entity';
 import { BudgetAlert } from './entities/budget-alert.entity';
+import { AlertRule } from './entities/alert-rule.entity';
+import { AlertEvent } from './entities/alert-event.entity';
 
 @Module({
     imports: [
@@ -50,7 +56,7 @@ import { BudgetAlert } from './entities/budget-alert.entity';
             username: process.env.DB_USER || 'admin',
             password: process.env.DB_PASSWORD || 'password',
             database: process.env.DB_NAME || 'governance_platform',
-            entities: [Tenant, CloudAccount, InventoryEntity, CostRecord, AuditEvent, Playbook, Role, UserRole, JitRequest, Budget, BudgetAlert],
+            entities: [Tenant, CloudAccount, InventoryEntity, CostRecord, AuditEvent, Playbook, Role, UserRole, JitRequest, Budget, BudgetAlert, AlertRule, AlertEvent],
             synchronize: true,
         }),
         TypeOrmModule.forFeature([
@@ -64,7 +70,9 @@ import { BudgetAlert } from './entities/budget-alert.entity';
             UserRole,
             JitRequest,
             Budget,
-            BudgetAlert
+            BudgetAlert,
+            AlertRule,
+            AlertEvent
         ]),
     ],
     controllers: [
@@ -76,7 +84,8 @@ import { BudgetAlert } from './entities/budget-alert.entity';
         PlaybookController,
         OptimizationController,
         RbacController,
-        BudgetController
+        BudgetController,
+        ComplianceController
     ],
     providers: [
         TenantService,
@@ -87,6 +96,9 @@ import { BudgetAlert } from './entities/budget-alert.entity';
         PlaybookService,
         RbacService,
         BudgetService,
+        AlertService,
+        NotificationService,
+        ComplianceService,
         AwsConnectorService,
         AzureConnectorService,
         GcpConnectorService,
