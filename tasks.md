@@ -35,7 +35,7 @@ Based on the [Statement of Work](./SOW.md), this task list tracks the implementa
 - [ ] **Multi-tenancy**
     - [x] Implement Tenant Service & Controller.
     - [x] Define Tenant Entity.
-    - [ ] Implement Tenant Onboarding workflow.
+    - [x] Implement Tenant Onboarding workflow.
     - [ ] Configure Row-Level Security (RLS) in PostgreSQL.
 - [x] **Frontend Framework**
     - [x] Scaffold Next.js Frontend (`apps/web`).
@@ -94,8 +94,8 @@ Based on the [Statement of Work](./SOW.md), this task list tracks the implementa
     - [x] Develop Rightsizing Heuristics (Logic in Service).
     - [ ] Implement Reservation Recommendations (RI/Savings Plans).
 - [ ] **Budgets**
-    - [ ] Implement Budget creation and tracking logic.
-    - [ ] Implement Budget Alert triggers.
+    - [x] Implement Budget creation and tracking logic.
+    - [x] Implement Budget Alert triggers.
 
 ## Phase 6: Hardening and Compliance
 - [ ] **Security & Compliance**

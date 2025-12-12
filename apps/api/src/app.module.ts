@@ -11,6 +11,7 @@ import { AuditController } from './controllers/audit.controller';
 import { PlaybookController } from './controllers/playbook.controller';
 import { OptimizationController } from './controllers/optimization.controller';
 import { RbacController } from './controllers/rbac.controller';
+import { BudgetController } from './controllers/budget.controller';
 
 import { TenantService } from './services/tenant.service';
 import { InventoryService } from './services/inventory.service';
@@ -19,6 +20,7 @@ import { OptimizationService } from './services/optimization.service';
 import { AuditService } from './services/audit.service';
 import { PlaybookService } from './services/playbook.service';
 import { RbacService } from './services/rbac.service';
+import { BudgetService } from './services/budget.service';
 
 import { AwsConnectorService } from './connectors/aws-connector.service';
 import { AzureConnectorService } from './connectors/azure-connector.service';
@@ -35,6 +37,8 @@ import { Playbook } from './entities/playbook.entity';
 import { Role } from './entities/role.entity';
 import { UserRole } from './entities/user-role.entity';
 import { JitRequest } from './entities/jit-request.entity';
+import { Budget } from './entities/budget.entity';
+import { BudgetAlert } from './entities/budget-alert.entity';
 
 @Module({
     imports: [
@@ -46,7 +50,7 @@ import { JitRequest } from './entities/jit-request.entity';
             username: process.env.DB_USER || 'admin',
             password: process.env.DB_PASSWORD || 'password',
             database: process.env.DB_NAME || 'governance_platform',
-            entities: [Tenant, CloudAccount, InventoryEntity, CostRecord, AuditEvent, Playbook, Role, UserRole, JitRequest],
+            entities: [Tenant, CloudAccount, InventoryEntity, CostRecord, AuditEvent, Playbook, Role, UserRole, JitRequest, Budget, BudgetAlert],
             synchronize: true,
         }),
         TypeOrmModule.forFeature([
@@ -58,7 +62,9 @@ import { JitRequest } from './entities/jit-request.entity';
             Playbook,
             Role,
             UserRole,
-            JitRequest
+            JitRequest,
+            Budget,
+            BudgetAlert
         ]),
     ],
     controllers: [
@@ -69,7 +75,8 @@ import { JitRequest } from './entities/jit-request.entity';
         AuditController,
         PlaybookController,
         OptimizationController,
-        RbacController
+        RbacController,
+        BudgetController
     ],
     providers: [
         TenantService,
@@ -79,6 +86,7 @@ import { JitRequest } from './entities/jit-request.entity';
         AuditService,
         PlaybookService,
         RbacService,
+        BudgetService,
         AwsConnectorService,
         AzureConnectorService,
         GcpConnectorService,
