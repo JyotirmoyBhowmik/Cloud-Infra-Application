@@ -13,6 +13,7 @@ import { OptimizationController } from './controllers/optimization.controller';
 import { RbacController } from './controllers/rbac.controller';
 import { BudgetController } from './controllers/budget.controller';
 import { ComplianceController } from './controllers/compliance.controller';
+import { CloudServicesController } from './controllers/cloud-services.controller';
 
 import { TenantService } from './services/tenant.service';
 import { InventoryService } from './services/inventory.service';
@@ -25,6 +26,7 @@ import { PlaybookService } from './services/playbook.service';
 import { RbacService } from './services/rbac.service';
 import { BudgetService } from './services/budget.service';
 import { ComplianceService } from './services/compliance.service';
+import { CloudServicesService } from './services/cloud-services.service';
 
 import { AwsConnectorService } from './connectors/aws-connector.service';
 import { AzureConnectorService } from './connectors/azure-connector.service';
@@ -45,6 +47,7 @@ import { Budget } from './entities/budget.entity';
 import { BudgetAlert } from './entities/budget-alert.entity';
 import { AlertRule } from './entities/alert-rule.entity';
 import { AlertEvent } from './entities/alert-event.entity';
+import { CloudServiceEntity } from './entities/cloud-service.entity';
 
 @Module({
     imports: [
@@ -56,7 +59,7 @@ import { AlertEvent } from './entities/alert-event.entity';
             username: process.env.DB_USER || 'admin',
             password: process.env.DB_PASSWORD || 'password',
             database: process.env.DB_NAME || 'governance_platform',
-            entities: [Tenant, CloudAccount, InventoryEntity, CostRecord, AuditEvent, Playbook, Role, UserRole, JitRequest, Budget, BudgetAlert, AlertRule, AlertEvent],
+            entities: [Tenant, CloudAccount, InventoryEntity, CostRecord, AuditEvent, Playbook, Role, UserRole, JitRequest, Budget, BudgetAlert, AlertRule, AlertEvent, CloudServiceEntity],
             synchronize: true,
         }),
         TypeOrmModule.forFeature([
@@ -72,7 +75,8 @@ import { AlertEvent } from './entities/alert-event.entity';
             Budget,
             BudgetAlert,
             AlertRule,
-            AlertEvent
+            AlertEvent,
+            CloudServiceEntity
         ]),
     ],
     controllers: [
@@ -85,7 +89,8 @@ import { AlertEvent } from './entities/alert-event.entity';
         OptimizationController,
         RbacController,
         BudgetController,
-        ComplianceController
+        ComplianceController,
+        CloudServicesController
     ],
     providers: [
         TenantService,
@@ -99,6 +104,7 @@ import { AlertEvent } from './entities/alert-event.entity';
         AlertService,
         NotificationService,
         ComplianceService,
+        CloudServicesService,
         AwsConnectorService,
         AzureConnectorService,
         GcpConnectorService,

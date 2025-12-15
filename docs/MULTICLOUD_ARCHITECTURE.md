@@ -213,6 +213,48 @@ The platform supports policy inheritance and compliance across all organizationa
 
 ---
 
+## Cloud Services Catalog ✅
+
+The platform includes a comprehensive **Cloud Services Catalog** that maps equivalent services across AWS, Azure, and Google Cloud.
+
+### Features:
+- **60+ Service Categories** - Compute, Storage, Database, Networking, Security, AI/ML, and more
+- **Service Equivalency Mapping** - Quickly find equivalent services across providers
+- **Search & Discovery** - Full-text search across all cloud services
+- **RESTful API** - Programmatic access to service mappings
+- **Auto-Categorization** - Automatically categorize discovered resources
+
+### Example Mappings:
+
+**Compute:**
+- AWS: EC2, Lambda, EKS
+- Azure: Virtual Machines, Functions, AKS
+- GCP: Compute Engine, Cloud Functions, GKE
+
+**Storage:**
+- AWS: S3, EBS, EFS
+- Azure: Blob Storage, Managed Disks, Azure Files
+- GCP: Cloud Storage, Persistent Disk, Filestore
+
+**Database:**
+- AWS: RDS, DynamoDB, Redshift
+- Azure: Azure SQL, Cosmos DB, Synapse Analytics
+- GCP: Cloud SQL, Firestore, BigQuery
+
+### API Endpoints:
+```
+GET  /cloud-services                    - List all services
+GET  /cloud-services/categories         - Get categories
+GET  /cloud-services/category/:category - Services by category
+GET  /cloud-services/equivalent         - Find equivalents
+GET  /cloud-services/search             - Search services
+POST /cloud-services/seed               - Seed database
+```
+
+📖 **See [Cloud Services Catalog Documentation](./CLOUD_SERVICES_CATALOG.md) for complete details.**
+
+---
+
 ## Summary
 
 ✅ **AWS Organizations** - Full support with auto-discovery  

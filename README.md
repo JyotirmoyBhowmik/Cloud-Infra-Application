@@ -86,6 +86,19 @@ kubectl apply -f infra/deploy.yaml
 ```
 
 ## Next Steps
-1.  **Configure Connectors:** Go to the Settings page in the UI to add AWS/Azure/GCP credentials.
-2.  **Define Policies:** Set up RBAC roles and Governance policies in the backend.
-3.  **Deployment:** Use the provided Terraform modules (in `infra` - to be populated) for production deployment.
+
+### For First-Time Users
+1. **Quick Setup:** Follow [docs/QUICK_START.md](./docs/QUICK_START.md) for a 15-minute setup
+2. **Initialize Admin:** Run `.\scripts\initialize-platform.ps1` to create your first tenant and admin user
+3. **Configure Connectors:** Go to Settings → Cloud Connectors to add AWS/Azure/GCP credentials
+
+### For Production Deployment
+1. **Read Deployment Guide:** See [docs/WINDOWS_DEPLOYMENT.md](./docs/WINDOWS_DEPLOYMENT.md) for comprehensive Windows deployment instructions
+2. **Review Checklist:** Complete the go-live checklist before deploying to production
+3. **Setup Authentication:** Follow the implementation plan to add proper JWT/OIDC authentication
+
+### Additional Resources
+- **API Documentation:** [docs/API.md](./docs/API.md)
+- **Architecture:** [docs/MULTICLOUD_ARCHITECTURE.md](./docs/MULTICLOUD_ARCHITECTURE.md)
+- **Operations Runbook:** [docs/RUNBOOK.md](./docs/RUNBOOK.md)
+- **All Documentation:** See [docs/README.md](./docs/README.md) for complete index

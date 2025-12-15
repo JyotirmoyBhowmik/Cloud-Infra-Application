@@ -69,6 +69,19 @@ export class TenantService {
         return savedTenant;
     }
 
+    async update(id: string, updates: Partial<Tenant>): Promise<Tenant> {
+        const tenant = await this.findOne(id);
+        if (!tenant) {
+            throw new Error('Tenant not found');
+        }
+
+        // Update tenant with provided fields
+        await this.tenantRepository.update(id, updates);
+
+        // Return updated tenant
+        return this.findOne(id);
+    }
+
     async remove(id: string): Promise<void> {
         await this.tenantRepository.delete(id);
     }

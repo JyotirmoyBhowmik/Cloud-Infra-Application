@@ -30,6 +30,16 @@ export class TenantController {
         return this.tenantService.onboardTenant(dto);
     }
 
+    @Put(':id')
+    async update(@Param('id') id: string, @Body() updateDto: {
+        name?: string;
+        billing_group?: string;
+        data_retention_days?: number;
+        auth_provider_config?: string;
+    }) {
+        return this.tenantService.update(id, updateDto);
+    }
+
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.tenantService.remove(id);
