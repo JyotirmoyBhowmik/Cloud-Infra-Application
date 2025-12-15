@@ -1,290 +1,186 @@
+/**
+ * Enhanced Inventory Page with Enterprise Layout
+ * Provider-tagged resources with data table
+ */
+
 'use client';
 import React, { useState } from 'react';
 import EnterpriseLayout from '../components/EnterpriseLayout';
 import PageHeader from '../components/PageHeader';
-import MetricCard, { MetricCardsGrid } from '../components/MetricCard';
-import DataTable, { Column } from '../components/DataTable';
-import FilterPanel, { FilterOption } from '../components/FilterPanel';
+import DataTable, { TableColumn, TableAction } from '../components/DataTable';
 import StatusBadge from '../components/StatusBadge';
-import { Cloud, Storage, CloudQueue, Security } from '@mui/icons-material';
-import { Chip } from '@mui/material';
-
-// Define Interface matching the API response
-interface InventoryEntity {
-    id: string;
-    provider: string;
-    native_id: string;
-    type: string;
-    state: string;
-    region: string;
-    cost_monthly: number;
-    tags: Record<string, string>;
-}
-
-// Generate comprehensive mock data
-const generateInventoryData = (): InventoryEntity[] => {
-    const providers = ['aws', 'azure', 'gcp'];
-    const types = [
-        'ec2_instance', 'rds_database', 's3_bucket', 'lambda_function',
-        'azure_vm', 'azure_sql', 'blob_storage', 'azure_function',
-        'gce_instance', 'cloud_sql', 'cloud_storage', 'cloud_function'
-    ];
-    const states = ['running', 'stopped', 'terminated', 'pending'];
-    const regions = ['us-east-1', 'us-west-2', 'eu-west-1', 'ap-south-1'];
-    const envs = ['Production', 'Development', 'Staging', 'Testing'];
-
-    const data: InventoryEntity[] = [];
-    for (let i = 1; i <= 50; i++) {
-        const provider = providers[Math.floor(Math.random() * providers.length)];
-        const type = types[Math.floor(Math.random() * types.length)];
-        const state = states[Math.floor(Math.random() * states.length)];
-        const region = regions[Math.floor(Math.random() * regions.length)];
-        const env = envs[Math.floor(Math.random() * envs.length)];
-
-        data.push({
-            id: `res-${i}`,
-            provider,
-            native_id: `${provider}-${type.split('_')[0]}-${Math.random().toString(36).substring(7)}`,
-            type,
-            state,
-            region,
-            cost_monthly: Math.round(Math.random() * 1000),
-            tags: { Environment: env, Team: `team-${i % 5}` },
-        });
-    }
-    return data;
-};
+import { Visibility, Edit, Delete, Cloud, Storage, Computer } from '@mui/icons-material';
 
 export default function InventoryPage() {
-    const [inventoryData] = useState(generateInventoryData());
-    const [filteredData, setFilteredData] = useState(inventoryData);
+    const [selectedProvider, setSelectedProvider] = useState<string>('all');
 
     const breadcrumbs = [
         { label: 'Home', href: '/' },
-        { label: 'Inventory' },
+        { label: 'Inventory & Assets' },
     ];
 
-    // Calculate metrics
-    const totalResources = filteredData.length;
-    const runningResources = filteredData.filter(r => r.state === 'running').length;
-    const stoppedResources = filteredData.filter(r => r.state === 'stopped').length;
-    const totalMonthlyCost = filteredData.reduce((sum, r) => sum + r.cost_monthly, 0);
-
-    // Filter configuration
-    const filterOptions: FilterOption[] = [
+    // Mock inventory data
+    const inventoryData = [
         {
-            id: 'provider',
-            label: 'Cloud Provider',
-            type: 'multiselect',
-            options: [
-                { label: 'AWS', value: 'aws' },
-                { label: 'Azure', value: 'azure' },
-                { label: 'GCP', value: 'gcp' },
-            ],
+            id: '1',
+            name: 'prod-web-server-01',
+            type: 'EC2 Instance',
+            provider: 'AWS',
+            region: 'us-east-1',
+            status: 'active',
+            cost: '$145.20',
+            lastUpdate: '2 mins ago',
+            tags: ['production', 'web'],
         },
         {
-            id: 'state',
-            label: 'Resource State',
-            type: 'multiselect',
-            options: [
-                { label: 'Running', value: 'running' },
-                { label: 'Stopped', value: 'stopped' },
-                { label: 'Terminated', value: 'terminated' },
-                { label: 'Pending', value: 'pending' },
-            ],
+            id: '2',
+            name: 'appvm-prod-001',
+            type: 'Virtual Machine',
+            provider: 'Azure',
+            region: 'eastus',
+            status: 'active',
+            cost: '$98.50',
+            lastUpdate: '5 mins ago',
+            tags: ['production', 'app'],
         },
         {
-            id: 'region',
-            label: 'Region',
-            type: 'multiselect',
-            options: [
-                { label: 'US East 1', value: 'us-east-1' },
-                { label: 'US West 2', value: 'us-west-2' },
-                { label: 'EU West 1', value: 'eu-west-1' },
-                { label: 'AP South 1', value: 'ap-south-1' },
-            ],
+            id: '3',
+            name: 'gke-cluster-prod',
+            type: 'GKE Cluster',
+            provider: 'GCP',
+            region: 'us-central1',
+            status: 'active',
+            cost: '$320.00',
+            lastUpdate: '1 hour ago',
+            tags: ['production', 'kubernetes'],
+        },
+        {
+            id: '4',
+            name: 'rds-mysql-prod',
+            type: 'RDS Database',
+            provider: 'AWS',
+            region: 'us-west-2',
+            status: 'warning',
+            cost: '$210.00',
+            lastUpdate: '10 mins ago',
+            tags: ['production', 'database'],
         },
     ];
 
-    const handleApplyFilters = (filters: Record<string, any>) => {
-        let filtered = inventoryData;
-
-        if (filters.provider && filters.provider.length > 0) {
-            filtered = filtered.filter(r => filters.provider.includes(r.provider));
-        }
-        if (filters.state && filters.state.length > 0) {
-            filtered = filtered.filter(r => filters.state.includes(r.state));
-        }
-        if (filters.region && filters.region.length > 0) {
-            filtered = filtered.filter(r => filters.region.includes(r.region));
-        }
-
-        setFilteredData(filtered);
-    };
-
-    const handleResetFilters = () => {
-        setFilteredData(inventoryData);
-    };
-
-    // Table columns configuration
-    const columns: Column<InventoryEntity>[] = [
+    const columns: TableColumn[] = [
         {
-            id: 'provider',
+            key: 'name',
+            label: 'Resource Name',
+            sortable: true,
+            render: (value, row) => (
+                <div className="flex items-center space-x-2">
+                    <Computer className="w-5 h-5 text-gray-400" />
+                    <span className="font-medium">{value}</span>
+                </div>
+            ),
+        },
+        {
+            key: 'type',
+            label: 'Type',
+            sortable: true,
+        },
+        {
+            key: 'provider',
             label: 'Provider',
-            minWidth: 100,
-            format: (value: string) => {
-                const colors: Record<string, string> = {
-                    aws: '#FF9900',
-                    azure: '#0078D4',
-                    gcp: '#4285F4',
-                };
-                return (
-                    <Chip
-                        label={value.toUpperCase()}
-                        size="small"
-                        style={{
-                            backgroundColor: colors[value] + '20',
-                            color: colors[value],
-                            fontWeight: 600,
-                        }}
-                    />
-                );
-            },
-        },
-        {
-            id: 'type',
-            label: 'Resource Type',
-            minWidth: 150,
-            format: (value: string) => (
-                <span className="text-sm font-medium text-gray-700">
-                    {value.replace(/_/g, ' ').toUpperCase()}
+            sortable: true,
+            render: (value) => (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    {value}
                 </span>
             ),
         },
         {
-            id: 'native_id',
-            label: 'Resource ID',
-            minWidth: 180,
-            format: (value: string) => (
-                <span className="text-xs font-mono text-gray-600">{value}</span>
-            ),
-        },
-        {
-            id: 'state',
-            label: 'State',
-            minWidth: 100,
-            format: (value: string) => {
-                const statusMap: Record<string, 'active' | 'warning' | 'error' | 'inactive'> = {
-                    running: 'active',
-                    stopped: 'inactive',
-                    terminated: 'error',
-                    pending: 'warning',
-                };
-                return <StatusBadge status={statusMap[value] || 'inactive'} label={value} />;
-            },
-        },
-        {
-            id: 'region',
+            key: 'region',
             label: 'Region',
-            minWidth: 120,
+            sortable: true,
         },
         {
-            id: 'cost_monthly',
+            key: 'cost',
             label: 'Monthly Cost',
-            minWidth: 120,
-            align: 'right',
-            format: (value: number) => `$${value.toLocaleString()}`,
+            sortable: true,
+            render: (value) => <span className="font-medium">{value}</span>,
         },
         {
-            id: 'tags',
-            label: 'Tags',
-            minWidth: 200,
-            sortable: false,
-            format: (value: Record<string, string>) => (
-                <div className="flex flex-wrap gap-1">
-                    {Object.entries(value || {}).slice(0, 2).map(([k, v]) => (
-                        <Chip
-                            key={k}
-                            label={`${k}: ${v}`}
-                            size="small"
-                            variant="outlined"
-                            className="text-xs"
-                        />
-                    ))}
-                </div>
-            ),
+            key: 'status',
+            label: 'Status',
+            render: (value) => <StatusBadge status={value as any} />,
+        },
+        {
+            key: 'lastUpdate',
+            label: 'Last Update',
+            render: (value) => <span className="text-gray-500">{value}</span>,
         },
     ];
+
+    const actions: TableAction[] = [
+        {
+            label: 'View Details',
+            icon: <Visibility className="w-4 h-4" />,
+            onClick: (row) => console.log('View', row),
+        },
+        {
+            label: 'Edit Tags',
+            icon: <Edit className="w-4 h-4" />,
+            onClick: (row) => console.log('Edit', row),
+        },
+        {
+            label: 'Delete',
+            icon: <Delete className="w-4 h-4" />,
+            onClick: (row) => console.log('Delete', row),
+            variant: 'danger',
+        },
+    ];
+
+    const filteredData = selectedProvider === 'all'
+        ? inventoryData
+        : inventoryData.filter(item => item.provider.toLowerCase() === selectedProvider);
 
     return (
         <EnterpriseLayout>
             <PageHeader
-                title="Cloud Resource Inventory"
-                subtitle="Unified view of all resources across AWS, Azure, and GCP"
+                title="Cloud Inventory & Assets"
+                subtitle="Unified view of resources across all cloud providers"
                 breadcrumbs={breadcrumbs}
                 actions={
-                    <div className="flex space-x-2">
-                        <FilterPanel
-                            filters={filterOptions}
-                            onApply={handleApplyFilters}
-                            onReset={handleResetFilters}
-                        />
-                        <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors">
-                            Add Resource
-                        </button>
-                    </div>
+                    <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors">
+                        Add Resource
+                    </button>
                 }
             />
 
-            {/* Key Metrics */}
-            <MetricCardsGrid>
-                <MetricCard
-                    icon={<Cloud className="w-6 h-6" />}
-                    label="Total Resources"
-                    value={totalResources.toLocaleString()}
-                    comparison={{ label: 'Across all clouds', value: '50 total' }}
-                />
-                <MetricCard
-                    icon={<CloudQueue className="w-6 h-6" />}
-                    label="Active Resources"
-                    value={runningResources.toLocaleString()}
-                    trend={{
-                        value: 5,
-                        isPositive: true,
-                        label: 'vs last week',
-                    }}
-                />
-                <MetricCard
-                    icon={<Storage className="w-6 h-6" />}
-                    label="Stopped Resources"
-                    value={stoppedResources.toLocaleString()}
-                    trend={{
-                        value: 12,
-                        isPositive: false,
-                        label: 'potential savings',
-                    }}
-                />
-                <MetricCard
-                    icon={<Security className="w-6 h-6" />}
-                    label="Total Monthly Cost"
-                    value={`$${totalMonthlyCost.toLocaleString()}`}
-                    comparison={{ label: 'Allocated resources', value: totalResources }}
-                />
-            </MetricCardsGrid>
-
-            {/* Resource Table */}
-            <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                    Resource Directory
-                </h2>
-                <DataTable
-                    columns={columns}
-                    data={filteredData}
-                    defaultRowsPerPage={10}
-                    onRowClick={(row) => console.log('Clicked row:', row)}
-                />
+            {/* Provider Filter Tabs */}
+            <div className="mb-6 border-b border-gray-200">
+                <nav className="-mb-px flex space-x-8">
+                    {['all', 'aws', 'azure', 'gcp'].map((provider) => (
+                        <button
+                            key={provider}
+                            onClick={() => setSelectedProvider(provider)}
+                            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${selectedProvider === provider
+                                    ? 'border-blue-600 text-blue-600'
+                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                }`}
+                        >
+                            {provider === 'all' ? 'All Providers' : provider.toUpperCase()}
+                        </button>
+                    ))}
+                </nav>
             </div>
+
+            {/* Data Table */}
+            <DataTable
+                columns={columns}
+                data={filteredData}
+                actions={actions}
+                onRowClick={(row) => console.log('Row clicked:', row)}
+                showPagination={true}
+                showExport={true}
+                pageSize={10}
+            />
         </EnterpriseLayout>
     );
 }
-
